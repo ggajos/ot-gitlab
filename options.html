@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>My Test Extension Options</title>
+        <script src="js/vendor/ractive.js"></script>
+        <script src="js/vendor/jquery-1.11.2.min.js"></script>
+        <script src="js/vendor/datatables/js/jquery.dataTables.min.js"></script>
+        <link href="js/vendor/datatables/css/jquery.dataTables.min.css" rel="stylesheet" type="text/css"/>
+    </head>
+<body>
+
+<div id="header">
+    <a href="https://gitlab.com/profile/account">Obtain key</a>
+
+    <label>
+        <input type="text" name="key"/>
+    </label>
+
+    <button id="load">Load</button>
+</div>
+<button id="csv">CSV</button>
+
+<div id="target">
+</div>
+
+<script id='tpl-main' type='text/ractive'>
+    <table id="main-table">
+        <thead>
+            <tr>
+                <th>Project</th>
+                <th>Title</th>
+                <th>Creator</th>
+                <th>Assignee</th>
+                <th>State</th>
+                <th>Created</th>
+                <th>Last updated</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{#each issues}}
+                <tr>
+                    <td>{{project.name}}</td>
+                    <td><a href="https://gitlab.com/{{project.path_with_namespace}}/issues/{{iid}}">{{title}}</a></td>
+                    <td>{{author.name}}</td>
+                    <td>{{assignee.name}}</td>
+                    <td>{{state}}</td>
+                    <td>{{created_at}}</td>
+                    <td>{{updated_at}}</td>
+                </tr>
+            {{/each issues}}
+        </tbody>
+    </table>
+</script>
+
+<script src="js/options.js"></script>
+</body>
+</html>
