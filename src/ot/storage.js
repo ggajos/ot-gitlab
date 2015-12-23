@@ -1,7 +1,7 @@
 var ot = ot || {};
 
 ot.storage = (function() {
-  var STORAGE_VERSION = 8;
+  var STORAGE_VERSION = 10;
 
   function set(key, value) {
     localStorage.setItem(key, LZString.compress(JSON.stringify(value)));

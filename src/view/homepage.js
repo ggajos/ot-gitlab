@@ -3,13 +3,15 @@ var view = view || {};
 view.homepage = (function() {
   var storage = ot.storage();
   var progress = ot.progress();
+  var db = ot.database();
 
-  function refreshTable(data) {
+  function refreshTable(issues) {
     $('#main-table-target').html('');
+    progress.message("Table loaded");
     new Ractive({
       el: 'main-table-target',
       template: '#tpl-main-table',
-      data: {issues: data}
+      data: {issues: issues}
     });
     $('#main-table').DataTable({
       dom: 'T<"clear">lfrtip',
@@ -18,10 +20,8 @@ view.homepage = (function() {
   }
 
   function loadDataFromCache() {
-    var data = storage.get("database");
-    if(data) {
-      progress.message("Data loaded, " + storage.size('database'));
-      refreshTable(data);
+    if(db.loaded()) {
+      refreshTable(db.issues());
       $('.js-btn-csv').show();
     }
   }
@@ -34,11 +34,7 @@ view.homepage = (function() {
     var $load = $('.js-btn-load');
     $load.click(function () {
       $load.hide();
-      progress.message("Started reloading data");
-      var key = $('input[name=key]').val();
-      storage.set("key", key);
-      ot.gitlab(key).issues().done(function(database) {
-        storage.set("database", database);
+      db.synchronize($('input[name=key]').val(), function() {
         loadDataFromCache();
         $load.show();
       });
@@ -47,8 +43,9 @@ view.homepage = (function() {
 
 
   function addCsvButtonHandler() {
-    $('.js-btn-csv').hide();
-    $('.js-btn-csv').click(function () {
+    var $btn = $('.js-btn-csv');
+    $btn.hide();
+    $btn.click(function () {
       ot.table($('#main-table')).download();
     });
   }

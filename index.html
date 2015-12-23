@@ -26,6 +26,7 @@
     <!-- Src -->
     <script src="src/ot/progress.js"></script>
     <script src="src/ot/storage.js"></script>
+    <script src="src/ot/database.js"></script>
     <script src="src/ot/gitlab.js"></script>
     <script src="src/ot/rest.js"></script>
     <script src="src/ot/table.js"></script>
@@ -64,11 +65,14 @@
     </table>
 </script>
 
-<p class="js-progress"></p>
+<div>
+    <p class="js-progress"></p>
+</div>
+
 <div>
     <!-- Nav tabs -->
     <ul class="nav nav-tabs" role="tablist">
-        <li role="presentation" class="active">
+        <li role="presentation">
             <a href="#home"
                aria-controls="home"
                role="tab" data-toggle="tab"
@@ -76,7 +80,7 @@
                 Home
             </a>
         </li>
-        <li role="presentation">
+        <li role="presentation" class="active">
             <a href="#table" aria-controls="profile"
                role="tab" data-toggle="tab"
             >
@@ -94,7 +98,7 @@
 
     <!-- Tab panes -->
     <div class="tab-content">
-        <div role="tabpanel" class="tab-pane active" id="home">
+        <div role="tabpanel" class="tab-pane" id="home">
             <a href="https://gitlab.com/profile/account">Obtain key</a>
 
             <label>
@@ -103,10 +107,10 @@
 
             <button class="js-btn-load">Reload</button>
         </div>
-        <div role="tabpanel" class="tab-pane" id="table">
+        <div role="tabpanel" class="tab-pane active" id="table">
             <button class="js-btn-csv">Download data as CSV</button>
             <div id="main-table-target">
-                Table is not loaded, please go to home tab and load issues
+                Table is not loaded, please go to home tab and load issues. First load will take some time but then all data will be cached.
             </div>
         </div>
         <div role="tabpanel" class="tab-pane" id="clean">...</div>
