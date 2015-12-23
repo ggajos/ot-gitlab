@@ -49,6 +49,20 @@ view.homepage = (function() {
       template: '#tpl-newsletter',
       data: {entries: entries}
     });
+    // setTimeout(function() {
+    //   $.each(entries, function(i, entry) {
+    //     $.each(entry.issues, function(i, issue) {
+    //       ot.gitlab(storage.get("key")).latestNotesByProjectIdAndIssueId(entry.project.id, issue.id).done(function(notes) {
+    //         var html = $.map(notes, function(note) {
+    //           return note.body
+    //         }).join(' => ');
+    //         var id = '.js-notes-' + entry.project.id + '-' + issue.id;
+    //         console.log(id);
+    //         $(id).html(html);
+    //       });
+    //     });
+    //   });
+    // }, 1000);
   }
 
   function loadDataFromCache() {

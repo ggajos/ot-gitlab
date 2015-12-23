@@ -32,9 +32,14 @@ ot.gitlab = (function (token) {
     return ot.rest(token).all(['projects', projectId, 'issues'].join('/'), {});
   }
 
+  function latestNotesByProjectIdAndIssueId(projectId, issueId) {
+    return ot.rest(token).get(['projects', projectId, 'issues', issueId, 'notes'].join('/'), {});
+  }
+
   return {
     projects: projects,
     issuesByProjectId: issuesByProjectId,
-    issues: issues
+    issues: issues,
+    latestNotesByProjectIdAndIssueId: latestNotesByProjectIdAndIssueId
   };
 });
