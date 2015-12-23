@@ -1,15 +1,20 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <title>My Test Extension Options</title>
-        <script src="vendor/ractive/ractive.js"></script>
-        <script src="vendor/jquery/jquery-1.11.2.min.js"></script>
-        <script src="vendor/datatables/js/jquery.dataTables.min.js"></script>
-        <link href="vendor/datatables/css/jquery.dataTables.min.css" rel="stylesheet" type="text/css"/>
-        <script src="vendor/lz-string/lz-string.js"></script>
-    </head>
+<head>
+    <title>My Test Extension Options</title>
+    <script src="vendor/ractive/ractive.js"></script>
+    <script src="vendor/jquery/jquery-1.11.2.min.js"></script>
+    <script src="vendor/datatables/js/jquery.dataTables.min.js"></script>
+    <link href="vendor/datatables/css/jquery.dataTables.min.css"
+          rel="stylesheet" type="text/css"/>
+    <script src="vendor/lz-string/lz-string.js"></script>
+    <script src="src/ot/progress.js"></script>
+    <script src="src/ot/storage.js"></script>
+    <script src="src/ot/gitlab.js"></script>
+    <script src="src/ot/rest.js"></script>
+    <script src="src/ot/table.js"></script>
+</head>
 <body>
-
 <div id="header">
     <a href="https://gitlab.com/profile/account">Obtain key</a>
 
@@ -26,34 +31,34 @@
 </div>
 
 <script id='tpl-main-table' type='text/ractive'>
-    <table id="main-table">
-        <thead>
-            <tr>
-                <th>Project</th>
-                <th>Title</th>
-                <th>Creator</th>
-                <th>Assignee</th>
-                <th>State</th>
-                <th>Created</th>
-                <th>Last updated</th>
-            </tr>
-        </thead>
-        <tbody>
-            {{#each issues}}
+        <table id="main-table">
+            <thead>
                 <tr>
-                    <td>{{project.name}}</td>
-                    <td><a href="https://gitlab.com/{{project.path_with_namespace}}/issues/{{iid}}">{{title}}</a></td>
-                    <td>{{author.name}}</td>
-                    <td>{{assignee.name}}</td>
-                    <td>{{state}}</td>
-                    <td>{{created_at}}</td>
-                    <td>{{updated_at}}</td>
+                    <th>Project</th>
+                    <th>Title</th>
+                    <th>Creator</th>
+                    <th>Assignee</th>
+                    <th>State</th>
+                    <th>Created</th>
+                    <th>Last updated</th>
                 </tr>
-            {{/each issues}}
-        </tbody>
-    </table>
-</script>
+            </thead>
+            <tbody>
+                {{#each issues}}
+                    <tr>
+                        <td>{{project.name}}</td>
+                        <td><a href="https://gitlab.com/{{project.path_with_namespace}}/issues/{{iid}}">{{title}}</a></td>
+                        <td>{{author.name}}</td>
+                        <td>{{assignee.name}}</td>
+                        <td>{{state}}</td>
+                        <td>{{created_at}}</td>
+                        <td>{{updated_at}}</td>
+                    </tr>
+                {{/each issues}}
+            </tbody>
+        </table>
 
-<script src="src/ot.js"></script>
+</script>
+<script src="src/view/homepage.js"></script>
 </body>
 </html>
