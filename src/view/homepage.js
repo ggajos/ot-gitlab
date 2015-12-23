@@ -13,15 +13,43 @@ view.homepage = (function() {
       template: '#tpl-main-table',
       data: {issues: issues}
     });
-    $('#main-table').DataTable({
+    // Setup - add a text input to each footer cell
+    $('#main-table thead th').each(function () {
+      var title = $(this).text();
+      $(this).html('<input type="text" placeholder="Search ' + title + '" />');
+    });
+    var table = $('#main-table').DataTable({
       dom: 'T<"clear">lfrtip',
-      bPaginate: false
+      bPaginate: false,
+      order: [[ 6, "desc" ]]
+    });
+    // Apply the search
+    table.columns().every(function () {
+      var that = this;
+      $('input', this.header()).on('keyup change', function () {
+        if (that.search() !== this.value) {
+          that
+            .search(this.value)
+            .draw();
+        }
+      });
+    });
+  }
+
+  function refreshNewsletter(entries) {
+    $('#newsletter-target').html('');
+    progress.message("Newsletter loaded");
+    new Ractive({
+      el: 'newsletter-target',
+      template: '#tpl-newsletter',
+      data: {entries: entries}
     });
   }
 
   function loadDataFromCache() {
     if(db.loaded()) {
       refreshTable(db.issues());
+      refreshNewsletter(db.newsletter(7));
       $('.js-btn-csv').show();
     }
   }

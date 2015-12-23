@@ -11,7 +11,45 @@ ot.database = (function() {
   }
 
   function issues() {
+    $.each(data.issues, function(index, it) {
+      if(it.state == 'closed') {
+        it.isClosed = true
+      }
+      if(it.state == 'opened') {
+        it.isOpened = true
+      }
+      it.lastUpdatedMoment = moment(it.updated_at).startOf('hour').fromNow();
+      it.lastUpdatedInDays = moment(new Date()).diff(moment(it.updated_at), 'days')
+    });
     return data.issues;
+  }
+
+  function issuesByProjectId(projectId) {
+    return $.grep(issues(), function(issue) {
+        return issue.project_id == projectId;
+      });
+  }
+
+  function issuesByProjectIdAndUpdatedSinceDays(projectId, days) {
+    return $.grep(issuesByProjectId(projectId), function(issue) {
+      return issue.lastUpdatedInDays <= days
+    }).sort(function(a, b) {
+      return ((a.lastUpdatedInDays < b.lastUpdatedInDays) ? -1 : ((a.lastUpdatedInDays > b.lastUpdatedInDays) ? 1 : 0))
+    });
+  }
+
+  function newsletter(days) {
+    var arr = [];
+    $.each(projects(), function(index, project) {
+      var entry = {
+        project: project,
+        issues: issuesByProjectIdAndUpdatedSinceDays(project.id, days)
+      };
+      if(entry.issues.length > 0) {
+        arr.push(entry)
+      }
+    });
+    return arr;
   }
 
   function loaded() {
@@ -27,7 +65,7 @@ ot.database = (function() {
         data = {
           projects: projects,
           issues: issues
-        }
+        };
         storage.set("data", data);
         progress.message("Database synchronized, " + storage.size('data'));
         if(callback) {
@@ -49,6 +87,9 @@ ot.database = (function() {
     projects: projects,
     issues: issues,
     synchronize: synchronize,
-    loaded: loaded
+    loaded: loaded,
+    issuesByProjectId: issuesByProjectId,
+    issuesByProjectIdAndUpdatedSinceDays: issuesByProjectIdAndUpdatedSinceDays,
+    newsletter: newsletter
   }
 });

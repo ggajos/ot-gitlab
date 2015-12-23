@@ -17,11 +17,12 @@
         integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS"
         crossorigin="anonymous"></script>
     <link rel="stylesheet" type="text/css"
-    href="https://cdn.datatables.net/s/bs-3.3.5/jqc-1.11.3,dt-1.10.10/datatables.min.css"/>
+          href="https://cdn.datatables.net/s/bs-3.3.5/jqc-1.11.3,dt-1.10.10/datatables.min.css"/>
     <script type="text/javascript"
-    src="https://cdn.datatables.net/s/bs-3.3.5/jqc-1.11.3,dt-1.10.10/datatables.min.js"></script>
+            src="https://cdn.datatables.net/s/bs-3.3.5/jqc-1.11.3,dt-1.10.10/datatables.min.js"></script>
     <!-- Vendor Local -->
     <script src="vendor/ractive/ractive.js"></script>
+    <script src="vendor/moment-js/moment.js"></script>
     <script src="vendor/lz-string/lz-string.js"></script>
     <!-- Src -->
     <script src="src/ot/progress.js"></script>
@@ -64,6 +65,27 @@
         </tbody>
     </table>
 </script>
+<script id='tpl-newsletter' type='text/html'>
+    {{#each entries}}
+    <h4>{{project.name}}</h4>
+    <ul>
+        {{#each issues}}
+        <li>
+            {{#if isClosed}}
+                <span class="label label-success">Finished</span>
+            {{/if isClosed}}
+            {{#if isOpened}}
+                <span class="label label-warning">Work in progress</span>
+            {{/if isOpened}}
+            <a href="https://gitlab.com/{{project.path_with_namespace}}/issues/{{iid}}">
+                #{{iid}}: {{title}}
+            </a>
+            {{lastUpdatedMoment}}
+        </li>
+        {{/each issues}}
+    </ul>
+    {{/each entries}}
+</script>
 
 <div>
     <p class="js-progress"></p>
@@ -80,18 +102,18 @@
                 Home
             </a>
         </li>
-        <li role="presentation" class="active">
+        <li role="presentation">
             <a href="#table" aria-controls="profile"
                role="tab" data-toggle="tab"
             >
                 Table
             </a>
         </li>
-        <li role="presentation">
+        <li role="presentation" class="active">
             <a href="#clean" aria-controls="messages"
                role="tab" data-toggle="tab"
             >
-                Clean
+                Newsletter
             </a>
         </li>
     </ul>
@@ -107,13 +129,23 @@
 
             <button class="js-btn-load">Reload</button>
         </div>
-        <div role="tabpanel" class="tab-pane active" id="table">
+        <div role="tabpanel" class="tab-pane" id="table">
             <button class="js-btn-csv">Download data as CSV</button>
             <div id="main-table-target">
-                Table is not loaded, please go to home tab and load issues. First load will take some time but then all data will be cached.
+                Table is not loaded, please go to home tab and load issues.
+                First load will take some time but then all data will be cached.
             </div>
         </div>
-        <div role="tabpanel" class="tab-pane" id="clean">...</div>
+        <div role="tabpanel" class="tab-pane active" id="clean">
+            <div class="container">
+                <div class="row">
+                    <h2>Issues updated in last 7 days</h2>
+                    <div id="newsletter-target">
+                        Newsletter is not loaded, please go to home tab and load issues.
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 <script src="src/view/homepage.js"></script>
