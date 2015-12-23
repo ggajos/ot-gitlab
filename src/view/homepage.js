@@ -22,6 +22,7 @@ view.homepage = (function() {
     if(data) {
       progress.message("Data loaded, " + storage.size('database'));
       refreshTable(data);
+      $('.js-btn-csv').show();
     }
   }
 
@@ -46,6 +47,7 @@ view.homepage = (function() {
 
 
   function addCsvButtonHandler() {
+    $('.js-btn-csv').hide();
     $('.js-btn-csv').click(function () {
       ot.table($('#main-table')).download();
     });
