@@ -39,6 +39,11 @@ view.homepage = (function() {
   function refreshNewsletter(entries) {
     $('#newsletter-target').html('');
     progress.message("Newsletter loaded");
+    $.each(entries, function(i, entry) {
+      $.each(entry.issues, function(i, issue) {
+        issue.description = issue.description.substring(0,150) + " ...";
+      });
+    });
     new Ractive({
       el: 'newsletter-target',
       template: '#tpl-newsletter',

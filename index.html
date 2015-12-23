@@ -80,7 +80,8 @@
             <a href="https://gitlab.com/{{project.path_with_namespace}}/issues/{{iid}}">
                 #{{iid}}: {{title}}
             </a>
-            {{lastUpdatedMoment}}
+            <strong>{{lastUpdatedMoment}}</strong><br/>
+            <small>{{description}}</small>
         </li>
         {{/each issues}}
     </ul>
