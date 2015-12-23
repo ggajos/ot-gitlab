@@ -6,6 +6,7 @@
         <script src="js/vendor/jquery-1.11.2.min.js"></script>
         <script src="js/vendor/datatables/js/jquery.dataTables.min.js"></script>
         <link href="js/vendor/datatables/css/jquery.dataTables.min.css" rel="stylesheet" type="text/css"/>
+        <script src="vendor/lz-string/lz-string.js"></script>
     </head>
 <body>
 
@@ -16,14 +17,15 @@
         <input type="text" name="key"/>
     </label>
 
-    <button id="load">Load</button>
+    <button class="js-btn-load">Reload</button>
 </div>
-<button id="csv">CSV</button>
+<button id="js-btn-csv">CSV</button>
+<p class="js-progress"></p>
 
-<div id="target">
+<div id="main-table-target">
 </div>
 
-<script id='tpl-main' type='text/ractive'>
+<script id='tpl-main-table' type='text/ractive'>
     <table id="main-table">
         <thead>
             <tr>
