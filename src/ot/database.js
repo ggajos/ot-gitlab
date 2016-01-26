@@ -49,6 +49,17 @@ ot.database = (function() {
         arr.push(entry)
       }
     });
+    $.each(arr, function(index, item) {
+      item.issues.sort(function(a, b) {
+        if(a.state == b.state) {
+          return new Date(a.created_at).getTime() - new Date(b.created_at).getTime()
+        } else if(a.state == 'closed') {
+          return -1;
+        } else {
+          return 1;
+        }
+      });
+    });
     return arr;
   }
 
