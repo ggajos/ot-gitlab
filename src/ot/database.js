@@ -11,13 +11,20 @@ ot.database = (function() {
   }
 
   function issues() {
-    $.each(data.issues, function(index, it) {
-      if(it.state == 'closed') {
-        it.isClosed = true
+    $.each(data.issues, function (index, it) {
+      // FIXME GG: in progress, extract to augmenting object
+      it.status = 0;
+      if (it.state == 'closed') {
+        it.status = 1
       }
-      if(it.state == 'opened') {
-        it.isOpened = true
-      }
+      $.each(it.labels, function (index, value) {
+        if ('production' === value.toLowerCase()) {
+          it.status = 2;
+        }
+      });
+      it.isDeployed = it.status == 2;
+      it.isReady = it.status == 1;
+      it.isOpen = it.status == 0;
       it.lastUpdatedMoment = moment(it.updated_at).startOf('hour').fromNow();
       it.lastUpdatedInDays = moment(new Date()).diff(moment(it.updated_at), 'days')
     });
@@ -51,9 +58,9 @@ ot.database = (function() {
     });
     $.each(arr, function(index, item) {
       item.issues.sort(function(a, b) {
-        if(a.state == b.state) {
+        if(a.status == b.status) {
           return new Date(a.created_at).getTime() - new Date(b.created_at).getTime()
-        } else if(a.state == 'closed') {
+        } else if(a.status > b.status) {
           return -1;
         } else {
           return 1;

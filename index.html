@@ -71,12 +71,15 @@
     <ul>
         {{#each issues}}
         <li>
-            {{#if isClosed}}
-                <span class="label label-success">Finished</span>
-            {{/if isClosed}}
-            {{#if isOpened}}
+            {{#isDeployed}}
+                <span class="label label-success">Deployed</span>
+            {{/isDeployed}}
+            {{#isReady}}
+                <span class="label label-primary">Ready</span>
+            {{/isReady}}
+            {{#isOpen}}
                 <span class="label label-warning">Work in progress</span>
-            {{/if isOpened}}
+            {{/isOpen}}
             <a href="https://gitlab.com/{{project.path_with_namespace}}/issues/{{iid}}">
                 #{{iid}}: {{title}}
             </a>
@@ -143,6 +146,14 @@
         </div>
         <div role="tabpanel" class="tab-pane active" id="clean">
             <div class="container">
+                <div class="row">
+                    <h3>Help</h3>
+                    <ul>
+                        <li>When issue contain "Production" label (case insensitive) then is marked as "Deployed"</li>
+                        <li>When issue has been updated in last 7 days and is closed then is marked as "Ready"</li>
+                        <li>When issue has been updated in last 7 days and is open then is marked as "In progress"</li>
+                    </ul>
+                </div>
                 <div class="row">
                     <h2>Issues updated in last 7 days</h2>
                     <div id="newsletter-target">
