@@ -12,21 +12,7 @@ ot.database = (function() {
 
   function issues() {
     $.each(data.issues, function (index, it) {
-      // FIXME GG: in progress, extract to augmenting object
-      it.status = 0;
-      if (it.state == 'closed') {
-        it.status = 1
-      }
-      $.each(it.labels, function (index, value) {
-        if ('production' === value.toLowerCase()) {
-          it.status = 2;
-        }
-      });
-      it.isDeployed = it.status == 2;
-      it.isReady = it.status == 1;
-      it.isOpen = it.status == 0;
-      it.lastUpdatedMoment = moment(it.updated_at).startOf('hour').fromNow();
-      it.lastUpdatedInDays = moment(new Date()).diff(moment(it.updated_at), 'days')
+      ot.issue(it);
     });
     return data.issues;
   }

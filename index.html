@@ -29,6 +29,7 @@
     <script src="src/ot/storage.js"></script>
     <script src="src/ot/database.js"></script>
     <script src="src/ot/gitlab.js"></script>
+    <script src="src/ot/issue.js"></script>
     <script src="src/ot/rest.js"></script>
     <script src="src/ot/table.js"></script>
 </head>
@@ -71,15 +72,10 @@
     <ul>
         {{#each issues}}
         <li>
-            {{#isDeployed}}
-                <span class="label label-success">Deployed</span>
-            {{/isDeployed}}
-            {{#isReady}}
-                <span class="label label-primary">Ready</span>
-            {{/isReady}}
-            {{#isOpen}}
-                <span class="label label-warning">Work in progress</span>
-            {{/isOpen}}
+            {{#isDeployed}}<span class="label label-success">Deployed</span>{{/isDeployed}}
+            {{#isNew}}<span class="label label-primary">New</span>{{/isNew}}
+            {{#isWip}}<span class="label label-warning">Work in progress</span>{{/isWip}}
+            {{#isCancelled}}<span class="label label-default">Cancelled</span>{{/isCancelled}}
             <a href="https://gitlab.com/{{project.path_with_namespace}}/issues/{{iid}}">
                 #{{iid}}: {{title}}
             </a>
